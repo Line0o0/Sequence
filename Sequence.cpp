@@ -10,19 +10,11 @@ using namespace std;
 
 Sequence::Sequence(const char* a)
 {
-
-
-	/*if (fin.fail())
-	{
-	cout<< "No such file:" <<a<< endl;
-	}*/
-
 	fin.open(a);
-	if (!fin)
-	{
-		cerr << "File could not be opened." << endl;
-	}
-	else cout << "get" << endl;
+        if(fin.fail())
+        {
+          cout<<"No Such File!"<<a<<endl;
+        }  
 	getstr();
 }
 
@@ -66,31 +58,35 @@ string Sequence::longestConsecutive()
 {
 	string longest;
 	longest.clear();
-	char max = 'Q';
-	char base = 'Q';
+	int mcounter = 0;
+	int counter = 0;
+	char base;
+	char cha;
 	long long slength = s.length();
-	int count = 0;
-	int mcount = 0;
-	for (int i = 0; i < slength; ++i)
-	{
-		if (base == s[i])
-			count++;
-		else
+	base = s[0];
+	for (unsigned int i = 0; i < slength; ++i)
 		{
-			if (count>mcount)
+			if (base == s[i])
+				counter++;
+			else
 			{
-				max = base;
-				mcount = count;
+				if (counter > mcounter)
+				{
+					mcounter = counter;
+					cha = base;
+				}
+				base = s[i];
+				counter = 1;
+			
 			}
-			base = s[i];
-			count = 1;
 		}
-	}
-	for (int i = 0; i < mcount; ++i)
+
+	longest = cha;
+	for (int i = 0; i < mcounter; i++)
 	{
-		longest = longest + max;
+		longest = longest + cha;
 	}
-	cout << mcount << endl;
+	cout << mcounter << endl;
 	return longest;
 }
 
@@ -107,9 +103,8 @@ int commonLength(char*p, char*q)
 	return --i;
 }
 
-//Variables used in the following function
-char c[1500000];
-char* cPtr[1500000];
+char c[1200000];
+char* cPtr[1200000];
 
 string Sequence::longestRepeated()
 {
